@@ -43,12 +43,11 @@
     display:flex;
     flex-direction:column;
   }
-  h1,h2,h3{font-family:'Sora',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);font-weight:700;letter-spacing:-0.01em;line-height:1.15;}
+  h1,h2,h3{font-family:'Sora',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);font-weight:700;letter-spacing:-0.01em;line-height:1.15;outline:none;}
   h1{font-size:clamp(28px,6vw,40px);font-weight:800;}
   h2{font-size:clamp(22px,5vw,30px);}
   p{color:var(--muted-strong);}
 
-  /* HEADER */
   .header{
     padding:18px 20px;
     display:flex;
@@ -78,7 +77,6 @@
     letter-spacing:0;
   }
 
-  /* MAIN */
   .main{
     flex:1;
     width:100%;
@@ -98,7 +96,6 @@
     .card{padding:44px 40px;}
   }
 
-  /* BADGE */
   .badge{
     display:inline-flex;
     align-items:center;
@@ -117,7 +114,6 @@
     background:var(--green);
   }
 
-  /* STEP */
   .step{display:none;animation:fade .35s ease;}
   .step.active{display:block;}
   @keyframes fade{
@@ -125,14 +121,12 @@
     to{opacity:1;transform:translateY(0);}
   }
 
-  /* OPENING */
   .center{text-align:center;}
   .center .badge{margin-bottom:18px;}
   .center h1{margin-bottom:14px;}
   .center .lead{font-size:17px;color:var(--muted-strong);margin-bottom:10px;}
   .center .sub{font-size:15px;color:var(--muted);margin-bottom:30px;}
 
-  /* BUTTONS */
   .btn{
     appearance:none;
     border:none;
@@ -146,22 +140,22 @@
     align-items:center;
     justify-content:center;
     gap:8px;
-    transition:transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+    transition:transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease, opacity .2s ease;
     width:100%;
     text-decoration:none;
     line-height:1;
   }
   .btn:focus-visible{outline:3px solid rgba(34,197,94,0.4);outline-offset:2px;}
-  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
   .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 18px rgba(34,197,94,0.30);}
   .btn-primary:hover:not(:disabled){background:var(--green-hover);}
   .btn-primary:active:not(:disabled){transform:translateY(1px);}
   .btn-whatsapp{background:var(--whatsapp);color:#fff;box-shadow:0 8px 22px rgba(37,211,102,0.35);font-size:16px;padding:16px 22px;}
-  .btn-whatsapp:hover{background:#20BE5A;}
+  .btn-whatsapp:hover:not(:disabled){background:#20BE5A;}
   .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);}
-  .btn-ghost:hover{background:var(--bg);}
+  .btn-ghost:hover:not(:disabled){background:var(--bg);}
   .btn-navy{background:var(--navy);color:#fff;box-shadow:0 6px 18px rgba(13,34,64,0.25);}
-  .btn-navy:hover{background:#0a1a30;}
+  .btn-navy:hover:not(:disabled){background:#0a1a30;}
 
   .btn-row{
     display:flex;
@@ -171,7 +165,6 @@
   .btn-row .btn{flex:1;}
   .btn-row .btn-ghost{flex:0 0 auto;max-width:42%;}
 
-  /* FIELDS */
   .field{margin-bottom:16px;}
   .label{
     display:block;
@@ -207,9 +200,13 @@
     background:rgba(185,28,28,0.06);
     border-radius:10px;
   }
-  .error-msg.show{display:block;}
+  .error-msg.show{display:block;animation:shake .3s;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-4px);}
+    75%{transform:translateX(4px);}
+  }
 
-  /* QUESTION */
   .progress-wrap{margin-bottom:22px;}
   .progress-meta{
     display:flex;
@@ -235,7 +232,6 @@
   .q-title{margin-bottom:8px;}
   .q-support{margin-bottom:20px;font-size:15px;}
 
-  /* OPTIONS */
   .options{display:flex;flex-direction:column;gap:10px;}
   .opt{
     display:flex;
@@ -275,10 +271,14 @@
   .opt-extra{
     margin-top:10px;
     display:none;
+    animation:slideDown .25s ease;
   }
   .opt-extra.show{display:block;}
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-6px);}
+    to{opacity:1;transform:translateY(0);}
+  }
 
-  /* REVIEW */
   .review-list{
     display:flex;
     flex-direction:column;
@@ -317,7 +317,6 @@
     margin:18px 0 10px;
   }
 
-  /* FINAL THANK YOU */
   .thank-you{
     background:var(--navy);
     color:#fff;
@@ -336,7 +335,6 @@
     margin:0 auto 16px;
   }
 
-  /* FOOTER */
   .footer{
     text-align:center;
     padding:20px 16px;
@@ -344,11 +342,25 @@
     color:var(--muted);
   }
 
-  /* UTIL */
-  .mt-8{margin-top:8px;}
-  .mt-16{margin-top:16px;}
-  .mt-20{margin-top:20px;}
-  .divider{height:1px;background:var(--border);margin:18px 0;}
+  /* Toast de feedback */
+  .toast{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:var(--navy);
+    color:#fff;
+    padding:12px 20px;
+    border-radius:var(--radius-pill);
+    font-size:14px;
+    font-weight:600;
+    box-shadow:var(--shadow-lg);
+    z-index:100;
+    transition:transform .3s ease;
+    pointer-events:none;
+    max-width:90%;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);}
 
   @media(max-width:380px){
     .btn{font-size:15px;padding:13px 16px;}
@@ -406,8 +418,8 @@
     <!-- STEP 2: PERGUNTA 1 -->
     <section class="step" data-step="2" aria-labelledby="t2">
       <div class="progress-wrap">
-        <div class="progress-meta"><span>Pergunta 1 de 5</span><span id="pPct1">20%</span></div>
-        <div class="progress-bar"><div class="progress-fill" id="pBar1" style="width:20%"></div></div>
+        <div class="progress-meta"><span>Pergunta 1 de 5</span><span>20%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
       </div>
       <h2 class="q-title" id="t2">O que você mais gostaria de melhorar hoje?</h2>
       <p class="q-support">Escolha o resultado que mais faria diferença para sua operação neste momento.</p>
@@ -597,6 +609,8 @@
   </div>
 </main>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <footer class="footer">
   © <span id="yr"></span> Único Contato — Diagnóstico de Relacionamento
 </footer>
@@ -608,7 +622,7 @@
 const WHATSAPP_PHONE = "553197147075";
 
 /* ============================================================
-   ESTADO
+   ESTADO (com cache de extras para preservar textos)
    ============================================================ */
 const state = {
   step: 0,
@@ -620,28 +634,73 @@ const state = {
   q4: "",
   q5: "",
   erp: "",
-  notes: ""
+  notes: "",
+  // Cache que preserva valores digitados em "Outro..." mesmo quando a opção é desmarcada
+  extrasCache: {
+    q1_extra: "",
+    q2_extra: "",
+    q3_extra: ""
+  }
 };
+
+// Flag para prevenir duplos cliques e navegação dupla
+let isNavigating = false;
+
+/* ============================================================
+   TOAST DE FEEDBACK
+   ============================================================ */
+const toastEl = document.getElementById('toast');
+let toastTimer = null;
+function showToast(msg, duration = 1800){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration);
+}
 
 /* ============================================================
    NAVEGAÇÃO DE ETAPAS
    ============================================================ */
 const steps = document.querySelectorAll('.step');
+
 function showStep(n){
   steps.forEach(s => s.classList.toggle('active', Number(s.dataset.step) === n));
   state.step = n;
-  // rola ao topo do card
-  document.getElementById('card').scrollIntoView({behavior:'smooth', block:'start'});
-  // foco acessível
+  
+  // Rolar ao topo do card suavemente
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  
+  // Foco acessível no título
   const active = document.querySelector('.step.active');
   if(active){
-    const h = active.querySelector('h1, h2');
-    if(h) setTimeout(()=>h.focus({preventScroll:true}), 100);
+    const h = active.querySelector('h1, h2, h3');
+    if(h) setTimeout(() => h.focus({preventScroll:true}), 150);
+  }
+  
+  // Restaurar campos de texto específicos
+  if(n === 1){
+    document.getElementById('company').value = state.company || "";
+    document.getElementById('respondent').value = state.respondent || "";
+  }
+  if(n === 7){
+    document.getElementById('erp').value = state.erp || "";
+    document.getElementById('notes').value = state.notes || "";
+  }
+  
+  // Ao voltar para uma pergunta, restaura o estado visual
+  if([2,3,4,5,6].includes(n)){
+    restoreVisualState();
+  }
+  
+  // Ao entrar na revisão, renderiza os dados
+  if(n === 8){
+    hideErrors();
+    renderReview();
   }
 }
 
 /* ============================================================
-   OPÇÕES (single / multiple) + extras condicionais
+   OPÇÕES (single / multiple) — com cache de extras
    ============================================================ */
 document.querySelectorAll('.options').forEach(group => {
   const type = group.dataset.type;
@@ -653,58 +712,115 @@ document.querySelectorAll('.options').forEach(group => {
     if(!input.matches('input')) return;
 
     if(type === 'single'){
-      // estado visual
+      // Limpa seleção visual de todas as opções
       group.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
       const lbl = input.closest('.opt');
       if(lbl && input.checked) lbl.classList.add('selected');
+      
+      // Salva a opção selecionada
       state[q] = input.checked ? input.value : "";
-      // extras condicionais
+      
+      // Atualiza visibilidade dos extras, PRESERVANDO O CONTEÚDO NO CACHE
       extras.forEach(ex => {
         const target = ex.dataset.showFor;
-        ex.classList.toggle('show', input.checked && input.value === target);
-        if(!(input.checked && input.value === target)){
+        const wasShowing = ex.classList.contains('show');
+        const shouldShow = input.checked && input.value === target;
+        
+        // Se o extra estava visível e será escondido, salva o conteúdo no cache
+        if(wasShowing && !shouldShow) {
           const inp = ex.querySelector('input');
-          if(inp) inp.value = "";
+          if(inp && state.extrasCache[q + '_extra'] !== undefined) {
+            state.extrasCache[q + '_extra'] = inp.value.trim();
+          }
+        }
+        
+        ex.classList.toggle('show', shouldShow);
+        
+        // Se vai mostrar o extra, restaura o valor do cache (ou deixa vazio)
+        if(shouldShow) {
+          const inp = ex.querySelector('input');
+          if(inp) {
+            inp.value = state.extrasCache[q + '_extra'] || "";
+          }
         }
       });
+      
+      // Atualiza state[q + '_extra'] baseado no input visível
       state[q + '_extra'] = "";
       if(input.checked){
         const activeExtra = group.querySelector('.opt-extra.show input');
-        if(activeExtra) state[q + '_extra'] = activeExtra.value.trim();
+        if(activeExtra) {
+          state[q + '_extra'] = activeExtra.value.trim();
+        }
       }
+      
     } else if(type === 'multiple'){
       const lbl = input.closest('.opt');
+      
       // Regra "Não sei informar" exclusiva
       if(input.dataset.exclusive === 'true' && input.checked){
         group.querySelectorAll('input[type="checkbox"]').forEach(c => {
           if(c !== input){
+            // Se um checkbox marcado tinha extra visível, preserva no cache
+            const optLabel = c.closest('.opt');
+            if(optLabel){
+              const nextExtra = optLabel.nextElementSibling;
+              if(nextExtra && nextExtra.classList.contains('opt-extra') && nextExtra.classList.contains('show')){
+                const inp = nextExtra.querySelector('input');
+                if(inp && state.extrasCache[q + '_extra'] !== undefined) {
+                  state.extrasCache[q + '_extra'] = inp.value.trim();
+                }
+              }
+            }
             c.checked = false;
             c.closest('.opt').classList.remove('selected');
           }
         });
         extras.forEach(ex => {
-          ex.classList.remove('show');
-          const inp = ex.querySelector('input'); if(inp) inp.value="";
+          const wasShowing = ex.classList.contains('show');
+          if(wasShowing) {
+            const inp = ex.querySelector('input');
+            if(inp && state.extrasCache[q + '_extra'] !== undefined) {
+              state.extrasCache[q + '_extra'] = inp.value.trim();
+            }
+            ex.classList.remove('show');
+          }
         });
       } else if(input.checked){
-        // se marcou algo além, desmarca "Não sei informar"
+        // Se marcou algo além, desmarca "Não sei informar"
         group.querySelectorAll('input[data-exclusive="true"]').forEach(c => {
           c.checked = false;
           c.closest('.opt').classList.remove('selected');
         });
       }
-      // estado visual
+      
+      // Estado visual do checkbox
       if(lbl) lbl.classList.toggle('selected', input.checked);
-      // extras condicionais
+      
+      // Extras condicionais - preserva conteúdo no cache
       extras.forEach(ex => {
         const target = ex.dataset.showFor;
+        const wasShowing = ex.classList.contains('show');
         const isOn = group.querySelector('input[value="'+CSS.escape(target)+'"]')?.checked;
+        
+        if(wasShowing && !isOn) {
+          const inp = ex.querySelector('input');
+          if(inp && state.extrasCache[q + '_extra'] !== undefined) {
+            state.extrasCache[q + '_extra'] = inp.value.trim();
+          }
+        }
+        
         ex.classList.toggle('show', !!isOn);
-        if(!isOn){
-          const inp = ex.querySelector('input'); if(inp) inp.value="";
+        
+        if(isOn) {
+          const inp = ex.querySelector('input');
+          if(inp) {
+            inp.value = state.extrasCache[q + '_extra'] || "";
+          }
         }
       });
-      // monta array
+      
+      // Monta array de selecionados
       const selected = Array.from(group.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
       state[q] = selected;
       state[q + '_extra'] = "";
@@ -713,24 +829,37 @@ document.querySelectorAll('.options').forEach(group => {
     }
   });
 
-  // sincroniza extras em tempo real
+  // Sincroniza extras em tempo real E atualiza o cache
   group.querySelectorAll('.opt-extra input').forEach(inp => {
     inp.addEventListener('input', () => {
-      state[q + '_extra'] = inp.value.trim();
+      const val = inp.value.trim();
+      state[q + '_extra'] = val;
+      if(state.extrasCache[q + '_extra'] !== undefined) {
+        state.extrasCache[q + '_extra'] = val;
+      }
     });
   });
 });
 
 /* ============================================================
-   RESTAURAR RESPOSTAS AO VOLTAR
+   RESTAURAR ESTADO VISUAL AO VOLTAR
    ============================================================ */
 function restoreVisualState(){
-  // Q1, Q3, Q4, Q5 (radio)
+  // Restaurar perguntas de seleção única (q1, q3, q4, q5)
   ['q1','q3','q4','q5'].forEach(q => {
     const group = document.querySelector('[data-q="'+q+'"]');
     if(!group) return;
+    
+    // Limpa tudo primeiro
     group.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
-    group.querySelectorAll('.opt-extra').forEach(e => e.classList.remove('show'));
+    group.querySelectorAll('.opt-extra').forEach(e => {
+      e.classList.remove('show');
+      const inp = e.querySelector('input');
+      if(inp) inp.value = "";
+    });
+    group.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    
+    // Marca a opção salva, se houver
     if(state[q]){
       const r = group.querySelector('input[value="'+CSS.escape(state[q])+'"]');
       if(r){
@@ -740,19 +869,27 @@ function restoreVisualState(){
         if(extra){
           extra.classList.add('show');
           const inp = extra.querySelector('input');
-          if(inp) inp.value = state[q+'_extra'] || "";
+          if(inp) {
+            // IMPORTANTE: restaura do cache, não do state (que pode estar vazio)
+            inp.value = state.extrasCache[q+'_extra'] || "";
+            state[q + '_extra'] = inp.value;
+          }
         }
       }
-    } else {
-      group.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
     }
   });
-  // Q2 (checkbox)
+  
+  // Restaurar pergunta de múltipla escolha (q2)
   const g2 = document.querySelector('[data-q="q2"]');
   if(g2){
     g2.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
     g2.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
-    g2.querySelectorAll('.opt-extra').forEach(e => e.classList.remove('show'));
+    g2.querySelectorAll('.opt-extra').forEach(e => {
+      e.classList.remove('show');
+      const inp = e.querySelector('input');
+      if(inp) inp.value = "";
+    });
+    
     (state.q2 || []).forEach(v => {
       const c = g2.querySelector('input[value="'+CSS.escape(v)+'"]');
       if(c){
@@ -762,7 +899,10 @@ function restoreVisualState(){
         if(extra){
           extra.classList.add('show');
           const inp = extra.querySelector('input');
-          if(inp) inp.value = state.q2_extra || "";
+          if(inp) {
+            inp.value = state.extrasCache['q2_extra'] || "";
+            state.q2_extra = inp.value;
+          }
         }
       }
     });
@@ -775,6 +915,7 @@ function restoreVisualState(){
 function hideErrors(){
   document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
 }
+
 function showError(id, msg){
   const el = document.getElementById(id);
   if(!el) return;
@@ -788,19 +929,38 @@ function validateStep(n){
     case 1:{
       const c = document.getElementById('company').value.trim();
       const r = document.getElementById('respondent').value.trim();
-      if(!c || !r){ showError('err1'); return false; }
+      if(!c || !r){ 
+        showError('err1'); 
+        return false; 
+      }
       state.company = c;
       state.respondent = r;
       return true;
     }
     case 2:
       if(!state.q1){ showError('err2'); return false; }
+      // Atualiza extra se estiver visível
+      const ex1 = document.querySelector('#q1_extra');
+      if(ex1 && ex1.closest('.opt-extra').classList.contains('show')){
+        state.q1_extra = ex1.value.trim();
+        state.extrasCache.q1_extra = state.q1_extra;
+      }
       return true;
     case 3:
       if(!state.q2 || state.q2.length === 0){ showError('err3'); return false; }
+      const ex2 = document.querySelector('#q2_extra');
+      if(ex2 && ex2.closest('.opt-extra').classList.contains('show')){
+        state.q2_extra = ex2.value.trim();
+        state.extrasCache.q2_extra = state.q2_extra;
+      }
       return true;
     case 4:
       if(!state.q3){ showError('err4'); return false; }
+      const ex3 = document.querySelector('#q3_extra');
+      if(ex3 && ex3.closest('.opt-extra').classList.contains('show')){
+        state.q3_extra = ex3.value.trim();
+        state.extrasCache.q3_extra = state.q3_extra;
+      }
       return true;
     case 5:
       if(!state.q4){ showError('err5'); return false; }
@@ -817,29 +977,57 @@ function validateStep(n){
 }
 
 /* ============================================================
-   EVENTOS DE NAVEGAÇÃO
+   NAVEGAÇÃO COM PROTEÇÃO CONTRA DUPLO CLIQUE
    ============================================================ */
+function navigateForward(btn, target){
+  if(isNavigating) return;
+  isNavigating = true;
+  
+  // Desabilita o botão temporariamente
+  btn.disabled = true;
+  const originalText = btn.textContent;
+  
+  if(validateStep(state.step)){
+    showStep(target);
+  } else {
+    // Se validação falhou, reabilita o botão
+    btn.disabled = false;
+  }
+  
+  // Reabilita após um tempo para evitar spam
+  setTimeout(() => {
+    isNavigating = false;
+    btn.disabled = false;
+  }, 400);
+}
+
 document.querySelectorAll('[data-next]').forEach(btn => {
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
     const target = Number(btn.dataset.next);
-    if(validateStep(state.step)) showStep(target);
+    navigateForward(btn, target);
   });
 });
+
 document.querySelectorAll('[data-back]').forEach(btn => {
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if(isNavigating) return;
     hideErrors();
     const target = Number(btn.dataset.back);
     showStep(target);
-    restoreVisualState();
   });
 });
 
-document.getElementById('btnStart').addEventListener('click', () => showStep(1));
+document.getElementById('btnStart').addEventListener('click', (e) => {
+  e.preventDefault();
+  showStep(1);
+});
 
-document.getElementById('btnReview').addEventListener('click', () => {
-  // Volta para o início do questionário (passo 2) preservando tudo
+document.getElementById('btnReview').addEventListener('click', (e) => {
+  e.preventDefault();
   showStep(2);
-  restoreVisualState();
+  showToast('Edite suas respostas e clique em Continuar');
 });
 
 /* ============================================================
@@ -847,16 +1035,14 @@ document.getElementById('btnReview').addEventListener('click', () => {
    ============================================================ */
 function renderReview(){
   const fmt = (v, fallback) => (v && v.length) ? v : (fallback || "Não informado");
-  const fmtArr = (arr, fallback) => (Array.isArray(arr) && arr.length) ? arr.join('\n• ') : (fallback || "Não informado");
-  const fmtNotes = (v) => v ? v : "Nenhuma informação adicional";
-
+  
   document.getElementById('rv_company').textContent = fmt(state.company);
   document.getElementById('rv_respondent').textContent = fmt(state.respondent);
 
   const q1 = state.q1 + (state.q1_extra ? ' — ' + state.q1_extra : '');
   document.getElementById('rv_q1').textContent = fmt(q1);
 
-  const q2Base = fmtArr(state.q2);
+  const q2Base = (Array.isArray(state.q2) && state.q2.length) ? state.q2.join('\n• ') : "Não informado";
   const q2 = q2Base + (state.q2_extra ? '\n• Detalhe: ' + state.q2_extra : '');
   document.getElementById('rv_q2').textContent = q2;
 
@@ -871,19 +1057,10 @@ function renderReview(){
   erpEl.classList.toggle('muted', !state.erp);
 
   const notesEl = document.getElementById('rv_notes');
-  notesEl.textContent = fmtNotes(state.notes);
+  const notesVal = state.notes ? state.notes : "Nenhuma informação adicional";
+  notesEl.textContent = notesVal;
   notesEl.classList.toggle('muted', !state.notes);
 }
-
-/* Exibe revisão ao entrar no passo 8 */
-const origShow = showStep;
-showStep = function(n){
-  origShow(n);
-  if(n === 8){
-    hideErrors();
-    renderReview();
-  }
-};
 
 /* ============================================================
    ENVIO PARA O WHATSAPP
@@ -945,7 +1122,6 @@ document.getElementById('btnSend').addEventListener('click', () => {
     }
     const message = buildMessage();
     const url = "https://wa.me/" + WHATSAPP_PHONE + "?text=" + encodeURIComponent(message);
-    // abre em mesma aba para que o app do WhatsApp seja acionado em mobile
     window.location.href = url;
   }catch(err){
     showError('errSend', "Não foi possível abrir o WhatsApp agora. Suas respostas estão preservadas — tente novamente em instantes.");
@@ -960,6 +1136,14 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 // Permite focar títulos para acessibilidade
 document.querySelectorAll('.step h1, .step h2, .step h3').forEach(h => {
   if(!h.hasAttribute('tabindex')) h.setAttribute('tabindex','-1');
+});
+
+// Sincroniza inputs de identificação em tempo real
+document.getElementById('company').addEventListener('input', (e) => {
+  state.company = e.target.value.trim();
+});
+document.getElementById('respondent').addEventListener('input', (e) => {
+  state.respondent = e.target.value.trim();
 });
 </script>
 </body>
