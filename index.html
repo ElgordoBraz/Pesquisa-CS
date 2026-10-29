@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0D2240" />
+<title>Diagnóstico de Relacionamento | Único Contato</title>
+<meta name="description" content="Diagnóstico de relacionamento Único Contato — compartilhe suas prioridades com seu consultor de Customer Success." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F3EE;
+    --surface:#FFFFFF;
+    --border:#E8E4DD;
+    --green:#22C55E;
+    --green-dark:#15803D;
+    --green-hover:#1EB054;
+    --whatsapp:#25D366;
+    --navy:#0D2240;
+    --text:#0D0D0D;
+    --muted:rgba(13,13,13,0.6);
+    --muted-strong:rgba(13,13,13,0.75);
+    --white:#FFFFFF;
+    --shadow: 0 4px 24px rgba(13,34,64,0.06), 0 1px 2px rgba(13,34,64,0.04);
+    --shadow-lg: 0 12px 40px rgba(13,34,64,0.10), 0 2px 6px rgba(13,34,64,0.05);
+    --radius:24px;
+    --radius-sm:14px;
+    --radius-pill:999px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  h1,h2,h3{font-family:'Sora',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);font-weight:700;letter-spacing:-0.01em;line-height:1.15;}
+  h1{font-size:clamp(28px,6vw,40px);font-weight:800;}
+  h2{font-size:clamp(22px,5vw,30px);}
+  p{color:var(--muted-strong);}
+
+  /* HEADER */
+  .header{
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    position:sticky;
+    top:0;
+    z-index:5;
+  }
+  .brand{
+    font-family:'Sora',sans-serif;
+    font-weight:800;
+    font-size:15px;
+    letter-spacing:0.14em;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand-mark{
+    width:28px;height:28px;border-radius:8px;
+    background:var(--navy);
+    color:var(--white);
+    display:grid;place-items:center;
+    font-size:14px;font-weight:800;
+    letter-spacing:0;
+  }
+
+  /* MAIN */
+  .main{
+    flex:1;
+    width:100%;
+    max-width:640px;
+    margin:0 auto;
+    padding:8px 16px 40px;
+  }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:32px 24px;
+    transition:box-shadow .3s ease;
+  }
+  @media(min-width:600px){
+    .card{padding:44px 40px;}
+  }
+
+  /* BADGE */
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(34,197,94,0.10);
+    color:var(--green-dark);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    padding:6px 12px;
+    border-radius:var(--radius-pill);
+    text-transform:uppercase;
+  }
+  .badge-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green);
+  }
+
+  /* STEP */
+  .step{display:none;animation:fade .35s ease;}
+  .step.active{display:block;}
+  @keyframes fade{
+    from{opacity:0;transform:translateY(6px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* OPENING */
+  .center{text-align:center;}
+  .center .badge{margin-bottom:18px;}
+  .center h1{margin-bottom:14px;}
+  .center .lead{font-size:17px;color:var(--muted-strong);margin-bottom:10px;}
+  .center .sub{font-size:15px;color:var(--muted);margin-bottom:30px;}
+
+  /* BUTTONS */
+  .btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:16px;
+    padding:14px 22px;
+    border-radius:var(--radius-pill);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+    width:100%;
+    text-decoration:none;
+    line-height:1;
+  }
+  .btn:focus-visible{outline:3px solid rgba(34,197,94,0.4);outline-offset:2px;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 18px rgba(34,197,94,0.30);}
+  .btn-primary:hover:not(:disabled){background:var(--green-hover);}
+  .btn-primary:active:not(:disabled){transform:translateY(1px);}
+  .btn-whatsapp{background:var(--whatsapp);color:#fff;box-shadow:0 8px 22px rgba(37,211,102,0.35);font-size:16px;padding:16px 22px;}
+  .btn-whatsapp:hover{background:#20BE5A;}
+  .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border);}
+  .btn-ghost:hover{background:var(--bg);}
+  .btn-navy{background:var(--navy);color:#fff;box-shadow:0 6px 18px rgba(13,34,64,0.25);}
+  .btn-navy:hover{background:#0a1a30;}
+
+  .btn-row{
+    display:flex;
+    gap:10px;
+    margin-top:24px;
+  }
+  .btn-row .btn{flex:1;}
+  .btn-row .btn-ghost{flex:0 0 auto;max-width:42%;}
+
+  /* FIELDS */
+  .field{margin-bottom:16px;}
+  .label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+  .hint{font-size:13px;color:var(--muted);margin-bottom:14px;}
+  .input, .textarea{
+    width:100%;
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--text);
+    padding:14px 16px;
+    border-radius:14px;
+    font-family:'Manrope',sans-serif;
+    font-size:15px;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .input:focus,.textarea:focus{
+    outline:none;
+    border-color:var(--green);
+    box-shadow:0 0 0 4px rgba(34,197,94,0.12);
+  }
+  .textarea{min-height:100px;resize:vertical;font-family:inherit;}
+  .error-msg{
+    display:none;
+    color:#b91c1c;
+    font-size:13px;
+    margin-top:10px;
+    padding:8px 12px;
+    background:rgba(185,28,28,0.06);
+    border-radius:10px;
+  }
+  .error-msg.show{display:block;}
+
+  /* QUESTION */
+  .progress-wrap{margin-bottom:22px;}
+  .progress-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+    font-weight:600;
+    color:var(--muted-strong);
+    margin-bottom:10px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--border);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--green);
+    border-radius:999px;
+    transition:width .4s ease;
+  }
+  .q-title{margin-bottom:8px;}
+  .q-support{margin-bottom:20px;font-size:15px;}
+
+  /* OPTIONS */
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:14px;
+    cursor:pointer;
+    transition:all .18s ease;
+    font-size:15px;
+    color:var(--text);
+    user-select:none;
+  }
+  .opt:hover{border-color:var(--green);background:#FBFDF9;}
+  .opt input{position:absolute;opacity:0;pointer-events:none;}
+  .opt-check{
+    width:22px;height:22px;border-radius:50%;
+    border:2px solid var(--border);
+    display:grid;place-items:center;
+    flex-shrink:0;
+    transition:all .18s ease;
+  }
+  .opt-checkbox .opt-check{border-radius:6px;}
+  .opt-check svg{opacity:0;transition:opacity .18s ease;}
+  .opt.selected{
+    border-color:var(--green);
+    background:rgba(34,197,94,0.07);
+  }
+  .opt.selected .opt-check{
+    background:var(--green);
+    border-color:var(--green);
+  }
+  .opt.selected .opt-check svg{opacity:1;}
+  .opt-text{flex:1;font-weight:500;}
+  .opt-extra{
+    margin-top:10px;
+    display:none;
+  }
+  .opt-extra.show{display:block;}
+
+  /* REVIEW */
+  .review-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin:18px 0 6px;
+  }
+  .review-item{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px 16px;
+  }
+  .review-item .ri-label{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .review-item .ri-value{
+    color:var(--text);
+    font-weight:600;
+    font-size:15px;
+    word-wrap:break-word;
+    white-space:pre-wrap;
+  }
+  .review-item .ri-value.muted{color:var(--muted);font-weight:500;}
+  .review-section-title{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    color:var(--navy);
+    font-size:13px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    margin:18px 0 10px;
+  }
+
+  /* FINAL THANK YOU */
+  .thank-you{
+    background:var(--navy);
+    color:#fff;
+    border-radius:var(--radius);
+    padding:28px 22px;
+    margin-bottom:20px;
+    text-align:center;
+  }
+  .thank-you h3{color:#fff;margin-bottom:8px;font-size:22px;}
+  .thank-you p{color:rgba(255,255,255,0.85);font-size:15px;}
+  .thank-icon{
+    width:52px;height:52px;
+    border-radius:50%;
+    background:var(--green);
+    display:grid;place-items:center;
+    margin:0 auto 16px;
+  }
+
+  /* FOOTER */
+  .footer{
+    text-align:center;
+    padding:20px 16px;
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  /* UTIL */
+  .mt-8{margin-top:8px;}
+  .mt-16{margin-top:16px;}
+  .mt-20{margin-top:20px;}
+  .divider{height:1px;background:var(--border);margin:18px 0;}
+
+  @media(max-width:380px){
+    .btn{font-size:15px;padding:13px 16px;}
+    .card{padding:26px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="header" role="banner">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">U</span>
+    <span>ÚNICO CONTATO</span>
+  </div>
+</header>
+
+<main class="main">
+  <div class="card" id="card">
+
+    <!-- STEP 0: ABERTURA -->
+    <section class="step active center" data-step="0" aria-labelledby="t0">
+      <span class="badge"><span class="badge-dot"></span> Diagnóstico de Relacionamento</span>
+      <h1 id="t0">Vamos evoluir juntos?</h1>
+      <p class="lead">Queremos entender melhor sua operação e descobrir como podemos ajudar você a aproveitar ainda mais a Único.</p>
+      <p class="sub">Responda a cinco perguntas rápidas. Suas respostas vão nos ajudar a direcionar melhor nosso acompanhamento e entender o que faz diferença para sua equipe.</p>
+      <button class="btn btn-primary" id="btnStart" type="button">Começar diagnóstico</button>
+    </section>
+
+    <!-- STEP 1: IDENTIFICAÇÃO -->
+    <section class="step" data-step="1" aria-labelledby="t1">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Identificação</span><span>Antes de começar</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:6%"></div></div>
+      </div>
+      <h2 id="t1">Para começar, quem está respondendo?</h2>
+      <p class="hint mt-8">Essas informações ajudam seu consultor de Customer Success a conduzir o acompanhamento individual.</p>
+
+      <div class="field">
+        <label class="label" for="company">Nome da empresa *</label>
+        <input class="input" id="company" type="text" autocomplete="organization" placeholder="Ex.: Minha Empresa Ltda." />
+      </div>
+      <div class="field">
+        <label class="label" for="respondent">Seu nome *</label>
+        <input class="input" id="respondent" type="text" autocomplete="name" placeholder="Seu nome completo" />
+      </div>
+
+      <div class="error-msg" id="err1">Preencha o nome da empresa e seu nome para continuar.</div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-back="0" type="button">Voltar</button>
+        <button class="btn btn-primary" data-next="2" type="button">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: PERGUNTA 1 -->
+    <section class="step" data-step="2" aria-labelledby="t2">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Pergunta 1 de 5</span><span id="pPct1">20%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="pBar1" style="width:20%"></div></div>
+      </div>
+      <h2 class="q-title" id="t2">O que você mais gostaria de melhorar hoje?</h2>
+      <p class="q-support">Escolha o resultado que mais faria diferença para sua operação neste momento.</p>
+      <div class="options" data-q="q1" data-type="single">
+        <label class="opt"><input type="radio" name="q1" value="Agilizar o atendimento."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Agilizar o atendimento.</span></label>
+        <label class="opt"><input type="radio" name="q1" value="Melhorar a produtividade da equipe."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Melhorar a produtividade da equipe.</span></label>
+        <label class="opt"><input type="radio" name="q1" value="Aumentar vendas e conversão."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Aumentar vendas e conversão.</span></label>
+        <label class="opt"><input type="radio" name="q1" value="Organizar e acompanhar a operação."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Organizar e acompanhar a operação.</span></label>
+        <label class="opt"><input type="radio" name="q1" value="Automatizar tarefas."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Automatizar tarefas.</span></label>
+        <label class="opt"><input type="radio" name="q1" value="Reduzir custos e desperdícios."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Reduzir custos e desperdícios.</span></label>
+        <label class="opt"><input type="radio" name="q1" value="Outro objetivo."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Outro objetivo.</span></label>
+        <div class="opt-extra" data-show-for="Outro objetivo.">
+          <input class="input" id="q1_extra" type="text" placeholder="Conte brevemente qual é seu objetivo (opcional)." />
+        </div>
+      </div>
+      <div class="error-msg" id="err2">Selecione uma opção para continuar.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-back="1" type="button">Voltar</button>
+        <button class="btn btn-primary" data-next="3" type="button">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: PERGUNTA 2 -->
+    <section class="step" data-step="3" aria-labelledby="t3">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Pergunta 2 de 5</span><span>40%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
+      </div>
+      <h2 class="q-title" id="t3">Como vocês utilizam a Único atualmente?</h2>
+      <p class="q-support">Selecione todos os recursos que se aplicam à sua operação.</p>
+      <div class="options" data-q="q2" data-type="multiple">
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="Centralização de conversas e equipe."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Centralização de conversas e equipe.</span></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="Filas e distribuição de atendimentos."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Filas e distribuição de atendimentos.</span></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="Automações e robôs."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Automações e robôs.</span></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="Relatórios e indicadores."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Relatórios e indicadores.</span></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="CRM e acompanhamento de clientes."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">CRM e acompanhamento de clientes.</span></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="Inteligência artificial."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Inteligência artificial.</span></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="Outros recursos."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Outros recursos.</span></label>
+        <div class="opt-extra" data-show-for="Outros recursos.">
+          <input class="input" id="q2_extra" type="text" placeholder="Quais outros recursos (opcional)." />
+        </div>
+        <label class="opt opt-checkbox"><input type="checkbox" name="q2" value="Não sei informar." data-exclusive="true"><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Não sei informar.</span></label>
+      </div>
+      <div class="error-msg" id="err3">Selecione ao menos uma opção para continuar.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-back="2" type="button">Voltar</button>
+        <button class="btn btn-primary" data-next="4" type="button">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 4: PERGUNTA 3 -->
+    <section class="step" data-step="4" aria-labelledby="t4">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Pergunta 3 de 5</span><span>60%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+      </div>
+      <h2 class="q-title" id="t4">Qual é a principal dificuldade da sua operação hoje?</h2>
+      <p class="q-support">Selecione a opção que mais representa o que vocês enfrentam.</p>
+      <div class="options" data-q="q3" data-type="single">
+        <label class="opt"><input type="radio" name="q3" value="Demora ou acúmulo de atendimentos."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Demora ou acúmulo de atendimentos.</span></label>
+        <label class="opt"><input type="radio" name="q3" value="Dificuldade em acompanhar resultados."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Dificuldade em acompanhar resultados.</span></label>
+        <label class="opt"><input type="radio" name="q3" value="Processos manuais ou repetitivos."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Processos manuais ou repetitivos.</span></label>
+        <label class="opt"><input type="radio" name="q3" value="Equipe com dificuldade para utilizar os recursos."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Equipe com dificuldade para utilizar os recursos.</span></label>
+        <label class="opt"><input type="radio" name="q3" value="Integrações ou limitações técnicas."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Integrações ou limitações técnicas.</span></label>
+        <label class="opt"><input type="radio" name="q3" value="Ainda não identificamos uma dificuldade principal."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Ainda não identificamos uma dificuldade principal.</span></label>
+        <label class="opt"><input type="radio" name="q3" value="Outra dificuldade."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Outra dificuldade.</span></label>
+        <div class="opt-extra" data-show-for="Outra dificuldade.">
+          <input class="input" id="q3_extra" type="text" placeholder="Conte brevemente (opcional)." />
+        </div>
+      </div>
+      <div class="error-msg" id="err4">Selecione uma opção para continuar.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-back="3" type="button">Voltar</button>
+        <button class="btn btn-primary" data-next="5" type="button">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 5: PERGUNTA 4 -->
+    <section class="step" data-step="5" aria-labelledby="t5">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Pergunta 4 de 5</span><span>80%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+      </div>
+      <h2 class="q-title" id="t5">Como você avalia a utilização da plataforma pela equipe?</h2>
+      <p class="q-support">Selecione a opção que melhor descreve o cenário atual.</p>
+      <div class="options" data-q="q4" data-type="single">
+        <label class="opt"><input type="radio" name="q4" value="Utilizamos bem os recursos necessários."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Utilizamos bem os recursos necessários.</span></label>
+        <label class="opt"><input type="radio" name="q4" value="Utilizamos apenas o básico."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Utilizamos apenas o básico.</span></label>
+        <label class="opt"><input type="radio" name="q4" value="Sabemos que existem recursos que ainda não aproveitamos."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Sabemos que existem recursos que ainda não aproveitamos.</span></label>
+        <label class="opt"><input type="radio" name="q4" value="Precisamos de orientação ou treinamento."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Precisamos de orientação ou treinamento.</span></label>
+        <label class="opt"><input type="radio" name="q4" value="Não consigo avaliar neste momento."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Não consigo avaliar neste momento.</span></label>
+      </div>
+      <div class="error-msg" id="err5">Selecione uma opção para continuar.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-back="4" type="button">Voltar</button>
+        <button class="btn btn-primary" data-next="6" type="button">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 6: PERGUNTA 5 -->
+    <section class="step" data-step="6" aria-labelledby="t6">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Pergunta 5 de 5</span><span>100%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <h2 class="q-title" id="t6">Como podemos ajudar você neste momento?</h2>
+      <p class="q-support">Escolha a forma de acompanhamento que faz mais sentido para você agora.</p>
+      <div class="options" data-q="q5" data-type="single">
+        <label class="opt"><input type="radio" name="q5" value="Receber dicas e orientações práticas."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Receber dicas e orientações práticas.</span></label>
+        <label class="opt"><input type="radio" name="q5" value="Revisar a configuração e o uso atual."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Revisar a configuração e o uso atual.</span></label>
+        <label class="opt"><input type="radio" name="q5" value="Conhecer novidades e melhorias disponíveis."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Conhecer novidades e melhorias disponíveis.</span></label>
+        <label class="opt"><input type="radio" name="q5" value="Agendar uma conversa com meu consultor."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Agendar uma conversa com meu consultor.</span></label>
+        <label class="opt"><input type="radio" name="q5" value="No momento, não preciso de acompanhamento."><span class="opt-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">No momento, não preciso de acompanhamento.</span></label>
+      </div>
+      <div class="error-msg" id="err6">Selecione uma opção para continuar.</div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-back="5" type="button">Voltar</button>
+        <button class="btn btn-primary" data-next="7" type="button">Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 7: INFORMAÇÕES OPCIONAIS -->
+    <section class="step" data-step="7" aria-labelledby="t7">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Informações complementares</span><span>Opcional</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <h2 id="t7">Se quiser, conte um pouco mais.</h2>
+      <p class="hint mt-8">Esses campos são opcionais e não impedem o envio do diagnóstico.</p>
+
+      <div class="field">
+        <label class="label" for="erp">Qual sistema de gestão ou ERP vocês utilizam?</label>
+        <input class="input" id="erp" type="text" placeholder="Ex.: Alpha7, outro sistema..." />
+      </div>
+      <div class="field">
+        <label class="label" for="notes">Há algo mais que você gostaria de compartilhar conosco?</label>
+        <textarea class="textarea" id="notes" placeholder="Conte brevemente, se desejar."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-back="6" type="button">Voltar</button>
+        <button class="btn btn-primary" data-next="8" type="button">Revisar respostas</button>
+      </div>
+    </section>
+
+    <!-- STEP 8: REVISÃO -->
+    <section class="step" data-step="8" aria-labelledby="t8">
+      <div class="thank-you">
+        <div class="thank-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 id="t8">Obrigado por compartilhar essas informações!</h3>
+        <p>Suas respostas vão nos ajudar a entender melhor sua operação e direcionar nosso acompanhamento.</p>
+      </div>
+
+      <div class="review-section-title">Identificação</div>
+      <div class="review-list">
+        <div class="review-item"><div class="ri-label">Empresa</div><div class="ri-value" id="rv_company"></div></div>
+        <div class="review-item"><div class="ri-label">Respondente</div><div class="ri-value" id="rv_respondent"></div></div>
+      </div>
+
+      <div class="review-section-title">Diagnóstico</div>
+      <div class="review-list">
+        <div class="review-item"><div class="ri-label">1. Principal objetivo</div><div class="ri-value" id="rv_q1"></div></div>
+        <div class="review-item"><div class="ri-label">2. Recursos utilizados</div><div class="ri-value" id="rv_q2"></div></div>
+        <div class="review-item"><div class="ri-label">3. Principal dificuldade</div><div class="ri-value" id="rv_q3"></div></div>
+        <div class="review-item"><div class="ri-label">4. Utilização da plataforma</div><div class="ri-value" id="rv_q4"></div></div>
+        <div class="review-item"><div class="ri-label">5. Como a Único pode ajudar</div><div class="ri-value" id="rv_q5"></div></div>
+      </div>
+
+      <div class="review-section-title">Informações complementares</div>
+      <div class="review-list">
+        <div class="review-item"><div class="ri-label">ERP utilizado</div><div class="ri-value" id="rv_erp"></div></div>
+        <div class="review-item"><div class="ri-label">Informações complementares</div><div class="ri-value" id="rv_notes"></div></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btnReview" type="button">Revisar respostas</button>
+        <button class="btn btn-whatsapp" id="btnSend" type="button">
+          Enviar diagnóstico pelo WhatsApp
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="error-msg" id="errSend"></div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  © <span id="yr"></span> Único Contato — Diagnóstico de Relacionamento
+</footer>
+
+<script>
+/* ============================================================
+   CONFIGURAÇÃO
+   ============================================================ */
+const WHATSAPP_PHONE = "553197147075";
+
+/* ============================================================
+   ESTADO
+   ============================================================ */
+const state = {
+  step: 0,
+  company: "",
+  respondent: "",
+  q1: "", q1_extra: "",
+  q2: [], q2_extra: "",
+  q3: "", q3_extra: "",
+  q4: "",
+  q5: "",
+  erp: "",
+  notes: ""
+};
+
+/* ============================================================
+   NAVEGAÇÃO DE ETAPAS
+   ============================================================ */
+const steps = document.querySelectorAll('.step');
+function showStep(n){
+  steps.forEach(s => s.classList.toggle('active', Number(s.dataset.step) === n));
+  state.step = n;
+  // rola ao topo do card
+  document.getElementById('card').scrollIntoView({behavior:'smooth', block:'start'});
+  // foco acessível
+  const active = document.querySelector('.step.active');
+  if(active){
+    const h = active.querySelector('h1, h2');
+    if(h) setTimeout(()=>h.focus({preventScroll:true}), 100);
+  }
+}
+
+/* ============================================================
+   OPÇÕES (single / multiple) + extras condicionais
+   ============================================================ */
+document.querySelectorAll('.options').forEach(group => {
+  const type = group.dataset.type;
+  const q = group.dataset.q;
+  const extras = group.querySelectorAll('.opt-extra');
+
+  group.addEventListener('change', (e) => {
+    const input = e.target;
+    if(!input.matches('input')) return;
+
+    if(type === 'single'){
+      // estado visual
+      group.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+      const lbl = input.closest('.opt');
+      if(lbl && input.checked) lbl.classList.add('selected');
+      state[q] = input.checked ? input.value : "";
+      // extras condicionais
+      extras.forEach(ex => {
+        const target = ex.dataset.showFor;
+        ex.classList.toggle('show', input.checked && input.value === target);
+        if(!(input.checked && input.value === target)){
+          const inp = ex.querySelector('input');
+          if(inp) inp.value = "";
+        }
+      });
+      state[q + '_extra'] = "";
+      if(input.checked){
+        const activeExtra = group.querySelector('.opt-extra.show input');
+        if(activeExtra) state[q + '_extra'] = activeExtra.value.trim();
+      }
+    } else if(type === 'multiple'){
+      const lbl = input.closest('.opt');
+      // Regra "Não sei informar" exclusiva
+      if(input.dataset.exclusive === 'true' && input.checked){
+        group.querySelectorAll('input[type="checkbox"]').forEach(c => {
+          if(c !== input){
+            c.checked = false;
+            c.closest('.opt').classList.remove('selected');
+          }
+        });
+        extras.forEach(ex => {
+          ex.classList.remove('show');
+          const inp = ex.querySelector('input'); if(inp) inp.value="";
+        });
+      } else if(input.checked){
+        // se marcou algo além, desmarca "Não sei informar"
+        group.querySelectorAll('input[data-exclusive="true"]').forEach(c => {
+          c.checked = false;
+          c.closest('.opt').classList.remove('selected');
+        });
+      }
+      // estado visual
+      if(lbl) lbl.classList.toggle('selected', input.checked);
+      // extras condicionais
+      extras.forEach(ex => {
+        const target = ex.dataset.showFor;
+        const isOn = group.querySelector('input[value="'+CSS.escape(target)+'"]')?.checked;
+        ex.classList.toggle('show', !!isOn);
+        if(!isOn){
+          const inp = ex.querySelector('input'); if(inp) inp.value="";
+        }
+      });
+      // monta array
+      const selected = Array.from(group.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
+      state[q] = selected;
+      state[q + '_extra'] = "";
+      const activeExtra = group.querySelector('.opt-extra.show input');
+      if(activeExtra) state[q + '_extra'] = activeExtra.value.trim();
+    }
+  });
+
+  // sincroniza extras em tempo real
+  group.querySelectorAll('.opt-extra input').forEach(inp => {
+    inp.addEventListener('input', () => {
+      state[q + '_extra'] = inp.value.trim();
+    });
+  });
+});
+
+/* ============================================================
+   RESTAURAR RESPOSTAS AO VOLTAR
+   ============================================================ */
+function restoreVisualState(){
+  // Q1, Q3, Q4, Q5 (radio)
+  ['q1','q3','q4','q5'].forEach(q => {
+    const group = document.querySelector('[data-q="'+q+'"]');
+    if(!group) return;
+    group.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    group.querySelectorAll('.opt-extra').forEach(e => e.classList.remove('show'));
+    if(state[q]){
+      const r = group.querySelector('input[value="'+CSS.escape(state[q])+'"]');
+      if(r){
+        r.checked = true;
+        r.closest('.opt').classList.add('selected');
+        const extra = group.querySelector('.opt-extra[data-show-for="'+CSS.escape(state[q])+'"]');
+        if(extra){
+          extra.classList.add('show');
+          const inp = extra.querySelector('input');
+          if(inp) inp.value = state[q+'_extra'] || "";
+        }
+      }
+    } else {
+      group.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    }
+  });
+  // Q2 (checkbox)
+  const g2 = document.querySelector('[data-q="q2"]');
+  if(g2){
+    g2.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    g2.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    g2.querySelectorAll('.opt-extra').forEach(e => e.classList.remove('show'));
+    (state.q2 || []).forEach(v => {
+      const c = g2.querySelector('input[value="'+CSS.escape(v)+'"]');
+      if(c){
+        c.checked = true;
+        c.closest('.opt').classList.add('selected');
+        const extra = g2.querySelector('.opt-extra[data-show-for="'+CSS.escape(v)+'"]');
+        if(extra){
+          extra.classList.add('show');
+          const inp = extra.querySelector('input');
+          if(inp) inp.value = state.q2_extra || "";
+        }
+      }
+    });
+  }
+}
+
+/* ============================================================
+   VALIDAÇÃO
+   ============================================================ */
+function hideErrors(){
+  document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+}
+function showError(id, msg){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(msg) el.textContent = msg;
+  el.classList.add('show');
+}
+
+function validateStep(n){
+  hideErrors();
+  switch(n){
+    case 1:{
+      const c = document.getElementById('company').value.trim();
+      const r = document.getElementById('respondent').value.trim();
+      if(!c || !r){ showError('err1'); return false; }
+      state.company = c;
+      state.respondent = r;
+      return true;
+    }
+    case 2:
+      if(!state.q1){ showError('err2'); return false; }
+      return true;
+    case 3:
+      if(!state.q2 || state.q2.length === 0){ showError('err3'); return false; }
+      return true;
+    case 4:
+      if(!state.q3){ showError('err4'); return false; }
+      return true;
+    case 5:
+      if(!state.q4){ showError('err5'); return false; }
+      return true;
+    case 6:
+      if(!state.q5){ showError('err6'); return false; }
+      return true;
+    case 7:
+      state.erp = document.getElementById('erp').value.trim();
+      state.notes = document.getElementById('notes').value.trim();
+      return true;
+  }
+  return true;
+}
+
+/* ============================================================
+   EVENTOS DE NAVEGAÇÃO
+   ============================================================ */
+document.querySelectorAll('[data-next]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = Number(btn.dataset.next);
+    if(validateStep(state.step)) showStep(target);
+  });
+});
+document.querySelectorAll('[data-back]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    hideErrors();
+    const target = Number(btn.dataset.back);
+    showStep(target);
+    restoreVisualState();
+  });
+});
+
+document.getElementById('btnStart').addEventListener('click', () => showStep(1));
+
+document.getElementById('btnReview').addEventListener('click', () => {
+  // Volta para o início do questionário (passo 2) preservando tudo
+  showStep(2);
+  restoreVisualState();
+});
+
+/* ============================================================
+   MONTAGEM DA REVISÃO
+   ============================================================ */
+function renderReview(){
+  const fmt = (v, fallback) => (v && v.length) ? v : (fallback || "Não informado");
+  const fmtArr = (arr, fallback) => (Array.isArray(arr) && arr.length) ? arr.join('\n• ') : (fallback || "Não informado");
+  const fmtNotes = (v) => v ? v : "Nenhuma informação adicional";
+
+  document.getElementById('rv_company').textContent = fmt(state.company);
+  document.getElementById('rv_respondent').textContent = fmt(state.respondent);
+
+  const q1 = state.q1 + (state.q1_extra ? ' — ' + state.q1_extra : '');
+  document.getElementById('rv_q1').textContent = fmt(q1);
+
+  const q2Base = fmtArr(state.q2);
+  const q2 = q2Base + (state.q2_extra ? '\n• Detalhe: ' + state.q2_extra : '');
+  document.getElementById('rv_q2').textContent = q2;
+
+  const q3 = state.q3 + (state.q3_extra ? ' — ' + state.q3_extra : '');
+  document.getElementById('rv_q3').textContent = fmt(q3);
+
+  document.getElementById('rv_q4').textContent = fmt(state.q4);
+  document.getElementById('rv_q5').textContent = fmt(state.q5);
+
+  const erpEl = document.getElementById('rv_erp');
+  erpEl.textContent = state.erp ? state.erp : "Não informado";
+  erpEl.classList.toggle('muted', !state.erp);
+
+  const notesEl = document.getElementById('rv_notes');
+  notesEl.textContent = fmtNotes(state.notes);
+  notesEl.classList.toggle('muted', !state.notes);
+}
+
+/* Exibe revisão ao entrar no passo 8 */
+const origShow = showStep;
+showStep = function(n){
+  origShow(n);
+  if(n === 8){
+    hideErrors();
+    renderReview();
+  }
+};
+
+/* ============================================================
+   ENVIO PARA O WHATSAPP
+   ============================================================ */
+function buildMessage(){
+  const lines = [];
+  lines.push("Olá, equipe Único Contato! Respondi ao diagnóstico de relacionamento.");
+  lines.push("");
+  lines.push("*Empresa:* " + (state.company || "—"));
+  lines.push("*Respondente:* " + (state.respondent || "—"));
+  lines.push("");
+
+  let a1 = state.q1 || "—";
+  if(state.q1_extra) a1 += " — " + state.q1_extra;
+  lines.push("*1. Principal objetivo:*");
+  lines.push(a1);
+  lines.push("");
+
+  lines.push("*2. Recursos utilizados:*");
+  if(Array.isArray(state.q2) && state.q2.length){
+    state.q2.forEach(v => lines.push("• " + v));
+    if(state.q2_extra) lines.push("• Detalhe: " + state.q2_extra);
+  } else {
+    lines.push("—");
+  }
+  lines.push("");
+
+  let a3 = state.q3 || "—";
+  if(state.q3_extra) a3 += " — " + state.q3_extra;
+  lines.push("*3. Principal dificuldade:*");
+  lines.push(a3);
+  lines.push("");
+
+  lines.push("*4. Utilização da plataforma:*");
+  lines.push(state.q4 || "—");
+  lines.push("");
+
+  lines.push("*5. Como a Único pode ajudar:*");
+  lines.push(state.q5 || "—");
+  lines.push("");
+
+  lines.push("*ERP utilizado:*");
+  lines.push(state.erp ? state.erp : "Não informado");
+  lines.push("");
+
+  lines.push("*Informações complementares:*");
+  lines.push(state.notes ? state.notes : "Nenhuma informação adicional");
+  lines.push("");
+  lines.push("Agradeço o contato!");
+
+  return lines.join("\n");
+}
+
+document.getElementById('btnSend').addEventListener('click', () => {
+  hideErrors();
+  try{
+    if(!WHATSAPP_PHONE || !/^\d{8,20}$/.test(WHATSAPP_PHONE)){
+      throw new Error("Número de WhatsApp inválido.");
+    }
+    const message = buildMessage();
+    const url = "https://wa.me/" + WHATSAPP_PHONE + "?text=" + encodeURIComponent(message);
+    // abre em mesma aba para que o app do WhatsApp seja acionado em mobile
+    window.location.href = url;
+  }catch(err){
+    showError('errSend', "Não foi possível abrir o WhatsApp agora. Suas respostas estão preservadas — tente novamente em instantes.");
+  }
+});
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Permite focar títulos para acessibilidade
+document.querySelectorAll('.step h1, .step h2, .step h3').forEach(h => {
+  if(!h.hasAttribute('tabindex')) h.setAttribute('tabindex','-1');
+});
+</script>
+</body>
+</html>
